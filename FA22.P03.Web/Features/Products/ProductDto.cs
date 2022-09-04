@@ -1,11 +1,15 @@
-﻿namespace FA22.P03.Web.Features.Products;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FA22.P03.Web.Features.Products;
 
 public class ProductDto
 {
     public int Id { get; set; }
 
-    public string? Name { get; set; }
-    public string? Description { get; set; }
+    [Required, MaxLength(120)]
+    public string Name { get; set; } = string.Empty;
 
-    public decimal Price { get; set; }
+    [Required]
+    public string Description { get; set; } = string.Empty;
+
 }

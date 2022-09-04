@@ -13,7 +13,7 @@ public class Product
     public decimal Price { get; set; }
 }
 
-public class ProductConfiguration : IEntityTypeConfiguration<Product>
+/*public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
@@ -24,4 +24,4 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Description)
             .IsRequired();
     }
-}
+}*/

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FA22.P03.Web.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FA22.P03.Web.Models
 {

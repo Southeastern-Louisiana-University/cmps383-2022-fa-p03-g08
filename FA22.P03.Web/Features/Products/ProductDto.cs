@@ -12,4 +12,7 @@ public class ProductDto
     [Required]
     public string Description { get; set; } = string.Empty;
 
+    [Required]
+    public ICollection<Item> items { get; set; }
+
 }

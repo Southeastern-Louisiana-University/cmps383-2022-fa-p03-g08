@@ -7,45 +7,41 @@ namespace FA22.P03.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
-    
-    public class ProductController : ControllerBase
+    public class ItemController : ControllerBase
     {
-
         private readonly DataContext _dataContext;
 
-        public ProductController(DataContext dataContext)
+        public ItemController(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
-
-        // GET: api/<ProductController>
+        // GET: api/<ItemController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<ProductController>/5
+        // GET api/<ItemController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<ProductController>
+        // POST api/<ItemController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<ProductController>/5
+        // PUT api/<ItemController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<ProductController>/5
+        // DELETE api/<ItemController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

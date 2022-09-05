@@ -1,5 +1,6 @@
 using FA22.P03.Web.Features.Products;
 using Microsoft.EntityFrameworkCore;
+using FA22.P03.Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,85 +53,6 @@ var products = new List<ProductDto>
     }
 };
 
-app.MapGet("/api/products", () =>
-    {
-        return products;
-    })
-    .Produces(200, typeof(ProductDto[]));
-
-app.MapGet("/api/products/{id}", (int id) =>
-    {
-        var result = products.FirstOrDefault(x => x.Id == id);
-        if (result == null)
-        {
-            return Results.NotFound();
-        }
-
-        return Results.Ok(result);
-    })
-    .WithName("GetProductById")
-    .Produces(404)
-    .Produces(200, typeof(ProductDto));
-
-app.MapPost("/api/products", (ProductDto product) =>
-    {
-        if (string.IsNullOrWhiteSpace(product.Name) ||
-            product.Name.Length > 120 ||
-            product.Price <= 0 ||
-            string.IsNullOrWhiteSpace(product.Description))
-        {
-            return Results.BadRequest();
-        }
-
-        product.Id = currentId++;
-        products.Add(product);
-        return Results.CreatedAtRoute("GetProductById", new { id = product.Id }, product);
-    })
-    .Produces(400)
-    .Produces(201, typeof(ProductDto));
-
-app.MapPut("/api/products/{id}", (int id, ProductDto product) =>
-    {
-        if (string.IsNullOrWhiteSpace(product.Name) ||
-            product.Name.Length > 120 ||
-            product.Price <= 0 ||
-            string.IsNullOrWhiteSpace(product.Description))
-        {
-            return Results.BadRequest();
-        }
-
-        var current = products.FirstOrDefault(x => x.Id == id);
-        if (current == null)
-        {
-            return Results.NotFound();
-        }
-
-        current.Name = product.Name;
-        current.Name = product.Name;
-        current.Price = product.Price;
-        current.Description = product.Description;
-
-        return Results.Ok(current);
-    })
-    .Produces(400)
-    .Produces(404)
-    .Produces(200, typeof(ProductDto));
-
-app.MapDelete("/api/products/{id}", (int id) =>
-    {
-        var current = products.FirstOrDefault(x => x.Id == id);
-        if (current == null)
-        {
-            return Results.NotFound();
-        }
-
-        products.Remove(current);
-
-        return Results.Ok();
-    })
-    .Produces(400)
-    .Produces(404)
-    .Produces(200, typeof(ProductDto));
 
 
 app.Run();

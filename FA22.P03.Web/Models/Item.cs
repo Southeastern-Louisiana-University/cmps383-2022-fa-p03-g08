@@ -2,7 +2,7 @@
 {
     public class Item
     {
-r        public int Id { get; set; }
+        public int Id { get; set; }
         public Products Products { get; set; }
         public string Conditon { get; set; }
         public ICollection<ItemListing> itemListings { get; set; }

@@ -1,5 +1,8 @@
-﻿/*using FA22.P03.Web.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace FA22.P03.Web.Models
 {
@@ -7,12 +10,12 @@ namespace FA22.P03.Web.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new DataContext(
+            using (var context = new DbContext(
                 serviceProvider.GetRequiredService<
-                    DbContextOptions<DataContext>>()))
+                    DbContextOptions<DbContext>>()))
             {
                 // Look for any movies.
-                if (context.Movie.Any())
+                if (context..Any())
                 {
                     return;   // DB has been seeded
                 }

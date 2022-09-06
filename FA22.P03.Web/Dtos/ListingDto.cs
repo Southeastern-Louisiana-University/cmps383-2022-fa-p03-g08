@@ -12,6 +12,5 @@ namespace FA22.P03.Web.Features.Listing
         public DateTimeOffset? StartUtc { get; set; }
         public DateTimeOffset? EndUtc { get; set; }
 
-
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace FA22.P03.Web.Features.Item
+﻿using FA22.P03.Web.Models;
+
+namespace FA22.P03.Web.Features.Item
 {
     public class Item
     {
         public int Id { get; set; }
-        public Products Products { get; set; }
+        public Product Product { get; set; }
         public string Conditon { get; set; }
-        public ICollection<ItemListing> itemListings { get; set; }
+        public ICollection<ItemListing> ItemListings { get; set; }
     }
 }

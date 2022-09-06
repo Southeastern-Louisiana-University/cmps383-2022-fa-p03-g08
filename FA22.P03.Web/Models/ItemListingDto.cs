@@ -1,6 +1,6 @@
 ﻿namespace FA22.P03.Web.Features.ItemListing
 {
-    public class ItemListing
+    public class ItemListingDto
     {
         public Item item { get; set; }
 

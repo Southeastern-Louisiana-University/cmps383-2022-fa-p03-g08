@@ -1,7 +1,5 @@
-﻿using FA22.P03.Web.Features.Item;
-using FA22.P03.Web.Features.ItemListing;
-using FA22.P03.Web.Features.Listing;
-using FA22.P03.Web.Features.Products;
+﻿
+using FA22.P03.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 

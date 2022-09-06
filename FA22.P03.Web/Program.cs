@@ -1,6 +1,6 @@
-using FA22.P03.Web.Features.Products;
 using Microsoft.EntityFrameworkCore;
 using FA22.P03.Web.Models;
+using FA22.P03.Web.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,21 +35,21 @@ var products = new List<ProductDto>
         Id = currentId++,
         Name = "Super Mario World",
         Description = "Super Nintendo (SNES) System. Mint Condition",
-        Price = 259.99m,
+        
     },
     new ProductDto
     {
         Id = currentId++,
         Name = "Donkey Kong 64",
         Description = "Moderate Condition Donkey Kong 64 cartridge for the Nintendo 64",
-        Price = 199m,
+       
     },
     new ProductDto
     {
         Id = currentId++,
         Name = "Half-Life 2: Collector's Edition",
         Description = "Good condition with all 5 CDs, booklets, and material from original",
-        Price = 559.99m
+       
     }
 };
 

@@ -1,7 +1,6 @@
-﻿using FA22.P03.Web.Models;
+﻿
+namespace FA22.P03.Web.Models;
 
-namespace FA22.P03.Web.Features.Item
-{
     public class Item
     {
         public int Id { get; set; }
@@ -9,4 +8,4 @@ namespace FA22.P03.Web.Features.Item
         public string Conditon { get; set; }
         public ICollection<ItemListing> ItemListings { get; set; }
     }
-}
+

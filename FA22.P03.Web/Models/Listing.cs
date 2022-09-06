@@ -1,5 +1,5 @@
-﻿namespace FA22.P03.Web.Features.Listing
-{
+﻿namespace FA22.P03.Web.Models;
+
     public class Listing
     {
         public int Id { get; set; }
@@ -10,4 +10,3 @@
         public DateTimeOffset EndUtc { get; set; }
         public ICollection<ItemListing> ItemsForSale { get; set; }
     }
-}

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FA22.P03.Web.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace FA22.P03.Web.Dtos;
 

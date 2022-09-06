@@ -1,4 +1,4 @@
-﻿using FA22.P03.Web.Data;
+﻿/*using FA22.P03.Web.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace FA22.P03.Web.Models
@@ -55,3 +55,4 @@ namespace FA22.P03.Web.Models
         }
     }
 }
+*/

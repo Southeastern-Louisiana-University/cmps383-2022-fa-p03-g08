@@ -1,43 +1,93 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FA22.P03.Web.Data;
+using FA22.P03.Web.Dtos;
+using FA22.P03.Web.Features.Products;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace FA22.P03.Web.Controllers
-{
-    [Route("api/[controller]")]
+namespace FA22.P03.Web.Controllers;
+
+    [Route("api/products")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
-        // GET: api/<ProductController>
+        private readonly DataContext dataContext;
+
+        public ProductsController(DataContext dataContext)
+        {
+            this.dataContext = dataContext;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ProductDto[] GetAllProducts()
         {
-            return new string[] { "value1", "value2" };
+            var products = dataContext.Set<Product>();
+            return GetProductDtos(products).ToArray();
         }
 
-        // GET api/<ProductController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult<ProductDto> GetProductById(int id)
         {
-            return "value";
+            var products = dataContext.Set<Product>();
+            var result = GetProductDtos(products).FirstOrDefault(x => x.Id == id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
-        // POST api/<ProductController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+       
 
-        // PUT api/<ProductController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<ProductDto> UpdateProduct(int id, ProductDto productDto)
         {
+            var products = dataContext.Set<Product>();
+            var current = products.FirstOrDefault(x => x.Id == id);
+            if (current == null)
+            {
+                return NotFound();
+            }
+
+            current.Name = productDto.Name;
+            current.Description = productDto.Description;
+            dataContext.SaveChanges();
+
+            return Ok(productDto);
         }
 
-        // DELETE api/<ProductController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<ProductDto> DeleteProduct(int id)
         {
+            var products = dataContext.Set<Product>();
+            var current = products.FirstOrDefault(x => x.Id == id);
+            if (current == null)
+            {
+                return NotFound();
+            }
+
+            products.Remove(current);
+            dataContext.SaveChanges();
+
+            return Ok();
+        }
+
+        private static IQueryable<ProductDto> GetProductDtos(IQueryable<Product> products)
+        {
+            return products
+                .Select(x => new
+                {
+                    Product = x
+                })
+                .Select(x => new ProductDto
+                {
+                    Id = x.Product.Id,
+                    Name = x.Product.Name,
+                    Description = x.Product.Description,
+  
+                });
         }
     }
-}
+

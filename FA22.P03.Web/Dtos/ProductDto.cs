@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FA22.P03.Web.Features.Products;
+namespace FA22.P03.Web.Dtos;
 
 public class ProductDto
 {

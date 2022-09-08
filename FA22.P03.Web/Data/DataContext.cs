@@ -1,6 +1,8 @@
-﻿using FA22.P03.Web.Models;
+﻿using FA22.P03.Web.Features.Items;
+using FA22.P03.Web.Features.ItemListings;
+using FA22.P03.Web.Features.Listings;
 using Microsoft.EntityFrameworkCore;
-
+using FA22.P03.Web.Features.Products;
 
 namespace FA22.P03.Web.Data
 {
@@ -34,9 +36,6 @@ namespace FA22.P03.Web.Data
                .Property(x => x.Name)
                .IsRequired();
 
-            modelBuilder.Entity<Item>()
-                .Property(x => x.Id)
-                .IsRequired();
 
             modelBuilder.Entity<Item>()
                .Property(x => x.Product)
@@ -66,8 +65,9 @@ namespace FA22.P03.Web.Data
             .Property(x => x.EndUtc)
             .IsRequired();
 
+            modelBuilder.Entity<ItemListing>()
+                .HasOne(x => x.Item)
+                .WithMany(x => x.ItemListings);
         }
-
-
     }
 }

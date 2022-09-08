@@ -1,4 +1,5 @@
 ﻿using FA22.P03.Web.Data;
+using FA22.P03.Web.Features.Items;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,10 +18,14 @@ namespace FA22.P03.Web.Controllers
         }
         // GET: api/<ItemController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        /*public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            
+
+           
+            _dataContext.SaveChanges();
         }
+       */
 
         // GET api/<ItemController>/5
         [HttpGet("{id}")]
@@ -31,8 +36,12 @@ namespace FA22.P03.Web.Controllers
 
         // POST api/<ItemController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void CreateItem(ItemDto itemDto)
         {
+            var itemToCreate = new ItemDto { Id = itemDto.Id, Condition = itemDto.Condition, ProductId = itemDto.ProductId, ProductName = itemDto.ProductName };
+
+            
+            _dataContext.SaveChanges();
         }
 
         // PUT api/<ItemController>/5

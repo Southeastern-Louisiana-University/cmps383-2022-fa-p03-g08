@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FA22.P03.Web.Features.Listing
+namespace FA22.P03.Web.Features.Listings
 {
     public class ListingDto
     {

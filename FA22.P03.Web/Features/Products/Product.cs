@@ -1,6 +1,6 @@
-﻿using FA22.P03.Web.Features.Item;
+﻿using FA22.P03.Web.Features.Items;
 
-namespace FA22.P03.Web.Models
+namespace FA22.P03.Web.Features.Products
 {
     public class Product
     {

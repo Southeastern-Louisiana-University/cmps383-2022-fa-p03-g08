@@ -1,4 +1,4 @@
-﻿namespace FA22.P03.Web.Features.Item
+﻿namespace FA22.P03.Web.Features.Items
 {
     public class ItemDto
     {

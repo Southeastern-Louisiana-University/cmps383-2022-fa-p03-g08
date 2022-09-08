@@ -1,6 +1,5 @@
 ﻿using FA22.P03.Web.Data;
-using FA22.P03.Web.Dtos;
-using FA22.P03.Web.Models;
+using FA22.P03.Web.Features.Products;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

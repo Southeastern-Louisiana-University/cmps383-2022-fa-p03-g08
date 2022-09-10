@@ -18,10 +18,10 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public ProductDto[] GetAllProducts()
+    public IActionResult GetAllProducts()
     {
         var products = dataContext.Set<Product>();
-        return GetProductDtos(products).ToArray();
+        return Ok(products);
     }
 
     [HttpGet]

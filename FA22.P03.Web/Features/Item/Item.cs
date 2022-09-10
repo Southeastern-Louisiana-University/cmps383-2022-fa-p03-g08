@@ -9,7 +9,8 @@ public class Item
 
     public int ProductId { get; set; }
     public Product Product { get; set; }
-    public string Conditon { get; set; }
+    public string? ProductName { get; set; }
+    public string? Conditon { get; set; }
     public ICollection<ItemListing> ItemListings { get; set; }
 }
 

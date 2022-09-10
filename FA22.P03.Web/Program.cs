@@ -2,6 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using FA22.P03.Web.Features.Products;
 using FA22.P03.Web.Data;
 using FA22.P03.Web.Features.Products;
+using FA22.P03.Web.Controllers;
+using FA22.P03.Web.Features.Items;
+using FA22.P03.Web.Features.Listings;
+using FA22.P03.Web.Features.ItemListings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +32,47 @@ using (var scope = app.Services.CreateScope())
     {
 
 
-        dataContext.Products.Add(new Product());
+        dataContext.Products.Add(new Product
+        {
+            Id = 1,
+
+            Name = "Super Mario World",
+
+            Description = "Super Nintendo (SNES) System. Mint Condition"
+
+
+
+
+        });
+
+        dataContext.Items.Add(new Item
+        {
+            Id=1,
+            Product = new Product
+            {
+
+            },
+            Conditon = "Brand New",
+
+            ProductId =  1
+
+            
+            
+        });
+
+        dataContext.Listings.Add(new Listing
+        {
+            Id = 1,
+
+            Name = "Nintendo 64",
+
+            Price = 200.99m,
+
+            StartUtc = DateTime.Now,
+
+            EndUtc = DateTime.Now,
+
+        });
         dataContext.SaveChanges();
     }
 }

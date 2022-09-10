@@ -32,18 +32,22 @@ namespace FA22.P03.Web.Data
                .Property(x => x.Description)
                .IsRequired();
 
-            modelBuilder.Entity<Product>()
-               .Property(x => x.Name)
-               .IsRequired();
+           
+
+
+
 
 
             modelBuilder.Entity<Item>()
-               .Property(x => x.Product)
+               .Property(x => x.ProductId)
                .IsRequired();
 
             modelBuilder.Entity<Item>()
               .Property(x => x.Conditon)
               .IsRequired();
+
+
+
 
             modelBuilder.Entity<Listing>()
              .Property(x => x.Id)
@@ -65,9 +69,14 @@ namespace FA22.P03.Web.Data
             .Property(x => x.EndUtc)
             .IsRequired();
 
+
+
+
             modelBuilder.Entity<ItemListing>()
                 .HasOne(x => x.Item)
                 .WithMany(x => x.ItemListings);
+                
+                
         }
     }
 }

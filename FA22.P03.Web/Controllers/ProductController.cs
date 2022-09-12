@@ -10,26 +10,26 @@ namespace FA22.P03.Web.Controllers;
 [ApiController]
 public class ProductsController : ControllerBase
 {
+    private readonly DataContext<Product> products;
     private readonly DataContext dataContext;
 
     public ProductsController(DataContext dataContext)
     {
         this.dataContext = dataContext;
+        products = dataContext.Set<Product>();
     }
 
     [HttpGet]
     public IActionResult GetAllProducts()
     {
-        var products = dataContext.Set<Product>();
-        return Ok(products);
+        return GetProductDtos(products);
     }
 
     [HttpGet]
     [Route("{id}")]
     public ActionResult<ProductDto> GetProductById(int id)
     {
-        var products = dataContext.Set<Product>();
-        var result = GetProductDtos(products).FirstOrDefault(x => x.Id == id);
+        var result = GetProductDtos(products.Where(x => x.Id == id)).FirstOrDefault();
         if (result == null)
         {
             return NotFound();

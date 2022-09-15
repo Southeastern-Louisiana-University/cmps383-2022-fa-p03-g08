@@ -1,6 +1,8 @@
 ﻿using FA22.P03.Web.Data;
+using FA22.P03.Web.Features.Listings;
 using FA22.P03.Web.Features.Products;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,26 +12,26 @@ namespace FA22.P03.Web.Controllers;
 [ApiController]
 public class ProductsController : ControllerBase
 {
+    private readonly DbSet<Product> products;
     private readonly DataContext dataContext;
 
     public ProductsController(DataContext dataContext)
     {
         this.dataContext = dataContext;
+        products = dataContext.Set<Product>();
     }
 
     [HttpGet]
-    public IActionResult GetAllProducts()
+    public IQueryable<ProductDto> GetAllProducts()
     {
-        var products = dataContext.Set<Product>();
-        return Ok(products);
+        return GetProductDtos(products);
     }
 
     [HttpGet]
     [Route("{id}")]
     public ActionResult<ProductDto> GetProductById(int id)
     {
-        var products = dataContext.Set<Product>();
-        var result = GetProductDtos(products).FirstOrDefault(x => x.Id == id);
+        var result = GetProductDtos(products.Where(x => x.Id == id)).FirstOrDefault();
         if (result == null)
         {
             return NotFound();
@@ -38,68 +40,108 @@ public class ProductsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost]
-    public ActionResult<ProductDto> CreateProduct(ProductDto productDto)
+    [HttpGet]
+    [Route("{id}/listings")]
+    public ActionResult<List<ListingDto>> GetProductListings(int id)
     {
+        if (!products.Any(x => x.Id == id))
+        {
+            return NotFound();
+        }
+
+        var now = DateTimeOffset.UtcNow;
+        var activeListingWithProduct = products
+            .Where(x => x.Id == id)
+            .SelectMany(x => x.Items)
+            .SelectMany(x => x.ItemListings)
+            .Select(x => x.Listing)
+            .Where(x => x.StartUtc <= now && now <= x.EndUtc)
+            .Distinct();
+        var listingDtos = ListingsController.GetListingDtos(activeListingWithProduct).ToList();
+
+        return Ok(listingDtos);
+    }
+
+    [HttpPost]
+    public ActionResult<ProductDto> CreateProduct(ProductDto dto)
+    {
+        if (IsInvalid(dto))
+        {
+            return BadRequest();
+        }
+
         var product = new Product
         {
-            Name = productDto.Name,
-            Description = productDto.Description,
+            Name = dto.Name,
+            Description = dto.Description,
         };
+        products.Add(product);
 
-        dataContext.Add(product);
         dataContext.SaveChanges();
-        productDto.Id = product.Id;
 
-        return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, productDto);
+        dto.Id = product.Id;
+
+        return CreatedAtAction(nameof(GetProductById), new { id = dto.Id }, dto);
     }
 
-    [HttpPut("{id}")]
-    public ActionResult<ProductDto> UpdateProduct(int id, ProductDto productDto)
+    [HttpPut]
+    [Route("{id}")]
+    public ActionResult<ProductDto> UpdateProduct(int id, ProductDto dto)
     {
-        var products = dataContext.Set<Product>();
-        var current = products.FirstOrDefault(x => x.Id == id);
-        if (current == null)
+        if (IsInvalid(dto))
+        {
+            return BadRequest();
+        }
+
+        var product = products.FirstOrDefault(x => x.Id == id);
+        if (product == null)
         {
             return NotFound();
         }
 
-        current.Name = productDto.Name;
-        current.Description = productDto.Description;
+        product.Name = dto.Name;
+        product.Description = dto.Description;
+
         dataContext.SaveChanges();
 
-        return Ok(productDto);
+        dto.Id = product.Id;
+
+        return Ok(dto);
     }
 
-    [HttpDelete("{id}")]
-    public ActionResult<ProductDto> DeleteProduct(int id)
+    [HttpDelete]
+    [Route("{id}")]
+    public ActionResult DeleteProduct(int id)
     {
-        var products = dataContext.Set<Product>();
-        var current = products.FirstOrDefault(x => x.Id == id);
-        if (current == null)
+        var product = products.FirstOrDefault(x => x.Id == id);
+        if (product == null)
         {
             return NotFound();
         }
 
-        products.Remove(current);
+        products.Remove(product);
+
         dataContext.SaveChanges();
 
         return Ok();
     }
 
+    private static bool IsInvalid(ProductDto dto)
+    {
+        return string.IsNullOrWhiteSpace(dto.Name) ||
+               dto.Name.Length > 120 ||
+               string.IsNullOrWhiteSpace(dto.Description);
+    }
+
     private static IQueryable<ProductDto> GetProductDtos(IQueryable<Product> products)
     {
-        var now = DateTimeOffset.UtcNow;
         return products
-            .Select(x => new
-            {
-                Product = x,
-            })
             .Select(x => new ProductDto
             {
-                Id = x.Product.Id,
-                Name = x.Product.Name,
-                Description = x.Product.Description,
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
             });
     }
 }
+

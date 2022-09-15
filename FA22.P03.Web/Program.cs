@@ -19,63 +19,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
 
-    // MigrateAndSeed.Initialize(services);
-    var dataContext = services.GetRequiredService<DataContext>();
-
-    dataContext.Database.Migrate();
-
-    if (!dataContext.Products.Any())
-    {
-
-
-        dataContext.Products.Add(new Product
-        {
-            Id = 1,
-
-            Name = "Super Mario World",
-
-            Description = "Super Nintendo (SNES) System. Mint Condition"
-
-
-
-
-        });
-
-        dataContext.Items.Add(new Item
-        {
-            Id=1,
-            Product = new Product
-            {
-
-            },
-            Conditon = "Brand New",
-
-            ProductId =  1
-
-            
-            
-        });
-
-        dataContext.Listings.Add(new Listing
-        {
-            Id = 1,
-
-            Name = "Nintendo 64",
-
-            Price = 200.99m,
-
-            StartUtc = DateTime.Now,
-
-            EndUtc = DateTime.Now,
-
-        });
-        dataContext.SaveChanges();
-    }
-}
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
@@ -90,7 +34,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var currentId = 1;
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    MigrateAndSeed.Initialize(services);
+}
+
+/*var currentId = 1;
 var products = new List<ProductDto>
 {
     new ProductDto
@@ -115,7 +66,7 @@ var products = new List<ProductDto>
        
     }
 };
-
+*/
 
 
 app.Run();

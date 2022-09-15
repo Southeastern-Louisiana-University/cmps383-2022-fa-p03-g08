@@ -13,11 +13,6 @@ namespace FA22.P03.Web.Data
         {
         }
 
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Item> Items { get; set; }
-        public DbSet<ItemListing> ItemListings { get; set; }
-        public DbSet<Listing> Listings { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
@@ -43,7 +38,7 @@ namespace FA22.P03.Web.Data
                .IsRequired();
 
             modelBuilder.Entity<Item>()
-              .Property(x => x.Conditon)
+              .Property(x => x.Condition)
               .IsRequired();
 
 

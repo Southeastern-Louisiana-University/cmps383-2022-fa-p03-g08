@@ -10,5 +10,5 @@ public class Listing
     public decimal? Price { get; set; }
     public DateTimeOffset StartUtc { get; set; }
     public DateTimeOffset EndUtc { get; set; }
-    public ICollection<ItemListing> ItemsForSale { get; set; }
+    public ICollection<ItemListing> ItemsForSale { get; set; } = new List<ItemListing>();
 }
